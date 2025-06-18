@@ -1,4 +1,4 @@
-package com.keyin.event;
+package com.keyin.rest.event;
 
 import jakarta.persistence.*;
 
