@@ -1,7 +1,16 @@
 package com.keyin.User;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+
+@Entity
 public class User {
 
+    @Id
+    @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(generator = "user_sequence")
     private long id;
     private String name;
     private String email;
@@ -13,37 +22,41 @@ public class User {
         this.email = email;
     }
 
+    // No-args constructor //
+    public User() {
+
+    }
+
     // Getters and Setters //
-    public long getId(){
+    public long getId() {
         return id;
     }
 
-    public void setId(int id){
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email){
+    public void setEmail(String email) {
         this.email = email;
     }
 
     // toString method//
 
     @Override
-    public String toString(){
+    public String toString() {
         return "User [id=" + id + ", name=" + name + ", email=" + email + "]";
     }
-
 
 }
