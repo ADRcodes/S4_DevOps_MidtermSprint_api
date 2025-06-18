@@ -1,6 +1,7 @@
 package com.keyin.rest.event;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,25 +17,36 @@ public class Event {
     @GeneratedValue(generator = "event_sequence")
     private Long id;
 
+    @NotBlank (message = "Company is required")
     private String company;
 
+    @NotBlank(message = "Event title is required")
     private String title;
 
+    @NotNull(message = "Date is required")
+    @FutureOrPresent(message = "Date must be in the present or future")
     private LocalDateTime date;
 
+    @NotBlank(message = "Description is required")
+    @Size(max = 2000, message = "Description can be at most 2000 characters")
     @Column(length = 2000)
     private String description;
 
+    @NotNull(message = "Price is required")
+    @DecimalMin(value = "0.0", inclusive = true, message = "Price must be non-negative")
     private BigDecimal price;
 
+    @Min(value = 1, message = "Capacity must be at least 1")
     private int capacity;
 
 //    @ManyToOne
 //    @JoinColumn(name = "organizer_id", nullable = false)
+//    @NotNull(message = "Venue is required")
 //    private User organizer;
 
 //    @ManyToOne
 //    @joinColumn(name = "venue_id", nullable = false)
+//    @NotNull(message = "Venue is required")
 //    private Venue venue;
 
     // ─── Getters & Setters ────────────────────────────────────────────────────

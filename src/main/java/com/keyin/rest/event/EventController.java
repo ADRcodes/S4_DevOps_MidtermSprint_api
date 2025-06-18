@@ -3,12 +3,15 @@ package com.keyin.rest.event;
 import com.keyin.rest.event.Event;
 import com.keyin.rest.event.EventService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/events")
+@Validated
+@CrossOrigin(origins = "*") // Allow all origins, adjust as needed
 public class EventController {
     private final EventService service;
 
