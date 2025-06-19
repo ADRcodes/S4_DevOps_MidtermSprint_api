@@ -5,6 +5,10 @@ import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import com.keyin.rest.venue.Venue;
+import com.keyin.rest.user.User;
+
+
 
 @Entity
 public class Event {
@@ -39,15 +43,15 @@ public class Event {
     @Min(value = 1, message = "Capacity must be at least 1")
     private int capacity;
 
-//    @ManyToOne
-//    @JoinColumn(name = "organizer_id", nullable = false)
-//    @NotNull(message = "Venue is required")
-//    private User organizer;
+    @ManyToOne
+    @JoinColumn(name = "organizer_id", nullable = false)
+    @NotNull(message = "Venue is required")
+    private User organizer;
 
-//    @ManyToOne
-//    @joinColumn(name = "venue_id", nullable = false)
-//    @NotNull(message = "Venue is required")
-//    private Venue venue;
+    @ManyToOne
+    @JoinColumn(name = "venue_id", nullable = false)
+    @NotNull(message = "Venue is required")
+    private Venue venue;
 
     // ─── Getters & Setters ────────────────────────────────────────────────────
 
@@ -115,12 +119,12 @@ public class Event {
 //        this.organizer = organizer;
 //    }
 
-//    public Venue getVenue() {
-//        return venue;
-//    }
+    public Venue getVenue() {
+        return venue;
+    }
 
-//    public void setVenue(Venue venue) {
-//        this.venue = venue;
-//    }
+    public void setVenue(Venue venue) {
+        this.venue = venue;
+    }
 
 }
