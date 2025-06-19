@@ -1,4 +1,4 @@
-package com.keyin.User;
+package com.keyin.rest.user;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

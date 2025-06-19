@@ -1,4 +1,4 @@
-package com.keyin.User;
+package com.keyin.rest.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

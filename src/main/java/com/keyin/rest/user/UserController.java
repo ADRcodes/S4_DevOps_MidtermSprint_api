@@ -1,4 +1,4 @@
-package com.keyin.User;
+package com.keyin.rest.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +48,6 @@ public class UserController {
     public User getUserByEmail(@RequestParam String email){
         return userService.getUserByEmail(email);
     }
-
 
     @PostMapping("/users")
     public User createUser(@RequestBody User newUser) {
