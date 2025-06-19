@@ -1,9 +1,9 @@
 package com.keyin.rest.registration;
 
-import com.keyin.rest.User.User;
-import com.keyin.rest.Event.Event;
+import com.keyin.rest.event.Event;
+import com.keyin.rest.user.User;
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Registration {
@@ -20,44 +20,29 @@ public class Registration {
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
-    private LocalDate registrationDate = LocalDate.now();
+    private LocalDateTime registrationDate;
 
+    // Constructors
     public Registration() {}
 
-    public Registration(User user, Event event) {
+    public Registration(User user, Event event, LocalDateTime registrationDate) {
         this.user = user;
         this.event = event;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Event getEvent() {
-        return event;
-    }
-
-    public LocalDate getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
-    public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
     }
+
+    // Getters and Setters
+    public Long getId() { return id; }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
+
+    public Event getEvent() { return event; }
+
+    public void setEvent(Event event) { this.event = event; }
+
+    public LocalDateTime getRegistrationDate() { return registrationDate; }
+
+    public void setRegistrationDate(LocalDateTime registrationDate) { this.registrationDate = registrationDate; }
 }
