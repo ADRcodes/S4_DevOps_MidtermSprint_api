@@ -111,13 +111,13 @@ public class Event {
         this.capacity = capacity;
     }
 
-//    public User getOrganizer() {
-//        return organizer;
-//    }
-//
-//    public void setOrganizer(User organizer) {
-//        this.organizer = organizer;
-//    }
+    public User getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(User organizer) {
+        this.organizer = organizer;
+    }
 
     public Venue getVenue() {
         return venue;
