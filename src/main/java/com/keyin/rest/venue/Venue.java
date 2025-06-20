@@ -1,5 +1,6 @@
 package com.keyin.rest.venue;
 
+import com.keyin.rest.event.Event;
 import jakarta.persistence.*;
 import java.util.List;
 

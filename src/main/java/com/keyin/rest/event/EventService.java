@@ -39,8 +39,8 @@ public class EventService {
         existing.setDescription(updated.getDescription());
         existing.setPrice(updated.getPrice());
         existing.setCapacity(updated.getCapacity());
-//        existing.setVenue(updated.getVenue());
-//        existing.setOrganizer(updated.getOrganizer());
+        existing.setVenue(updated.getVenue());
+        existing.setOrganizer(updated.getOrganizer());
         return repo.save(existing);
     }
 

@@ -1,5 +1,7 @@
 package com.keyin.rest.event;
 
+import com.keyin.rest.user.User;
+import com.keyin.rest.venue.Venue;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -39,15 +41,15 @@ public class Event {
     @Min(value = 1, message = "Capacity must be at least 1")
     private int capacity;
 
-//    @ManyToOne
-//    @JoinColumn(name = "organizer_id", nullable = false)
-//    @NotNull(message = "Venue is required")
-//    private User organizer;
+    @ManyToOne
+    @JoinColumn(name = "organizer_id", nullable = false)
+    @NotNull(message = "Venue is required")
+    private User organizer;
 
-//    @ManyToOne
-//    @joinColumn(name = "venue_id", nullable = false)
-//    @NotNull(message = "Venue is required")
-//    private Venue venue;
+    @ManyToOne
+    @JoinColumn(name = "venue_id", nullable = false)
+    @NotNull(message = "Venue is required")
+    private Venue venue;
 
     // ─── Getters & Setters ────────────────────────────────────────────────────
 
@@ -107,20 +109,20 @@ public class Event {
         this.capacity = capacity;
     }
 
-//    public User getOrganizer() {
-//        return organizer;
-//    }
-//
-//    public void setOrganizer(User organizer) {
-//        this.organizer = organizer;
-//    }
+    public User getOrganizer() {
+        return organizer;
+    }
 
-//    public Venue getVenue() {
-//        return venue;
-//    }
+    public void setOrganizer(User organizer) {
+        this.organizer = organizer;
+    }
 
-//    public void setVenue(Venue venue) {
-//        this.venue = venue;
-//    }
+    public Venue getVenue() {
+        return venue;
+    }
+
+    public void setVenue(Venue venue) {
+        this.venue = venue;
+    }
 
 }
