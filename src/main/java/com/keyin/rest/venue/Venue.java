@@ -1,6 +1,7 @@
 package com.keyin.rest.venue;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
 import com.keyin.rest.event.Event;
 
@@ -17,6 +18,7 @@ public class Venue {
     private int capacity;
 
     @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Event> events;
 
     public Venue() {}
