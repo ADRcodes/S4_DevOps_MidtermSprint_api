@@ -4,6 +4,7 @@ import com.keyin.rest.user.User;
 import com.keyin.rest.venue.Venue;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -49,6 +50,7 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "venue_id", nullable = false)
     @NotNull(message = "Venue is required")
+    @JsonBackReference
     private Venue venue;
 
     // ─── Getters & Setters ────────────────────────────────────────────────────
