@@ -1,27 +1,40 @@
 package com.keyin.rest.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.keyin.rest.user.userexception.DuplicateEmailException;
+import com.keyin.rest.user.userexception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
+
+        return userRepository.findById(id)
+        .orElseThrow(() -> new UserNotFoundException(id));
+
     }
 
     public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UserNotFoundException("User not found with email: " + email);
+        }
+        return user;
     }
 
     public void deleteUser(User user) {
@@ -29,21 +42,35 @@ public class UserService {
     }
 
     public User createUser(User newUser) {
+
+        User existingUser = userRepository.findByEmail(newUser.getEmail());
+        if (existingUser != null) {
+            throw new DuplicateEmailException(newUser.getEmail());
+        }
+
         return userRepository.save(newUser);
     }
 
     public User updateUser(Long id, User updatedUser) {
-        Optional<User> userToUpdateOptional = userRepository.findById(id);
+        User userToUpdate = getUserById(id); // This will throw UserNotFoundException if not found
 
-        if (userToUpdateOptional.isPresent()) {
-            User userToUpdate = userToUpdateOptional.get();
-            userToUpdate.setName(updatedUser.getName());
-            userToUpdate.setEmail(updatedUser.getEmail());
-            return userRepository.save(userToUpdate);
+        // Check if the email is being changed to an existing email //
+        if (!userToUpdate.getEmail().equals(updatedUser.getEmail())) {
+            User existingUser = userRepository.findByEmail(updatedUser.getEmail());
+            if (existingUser != null && existingUser.getId() != id) {
+                throw new DuplicateEmailException(updatedUser.getEmail());
+            }
         }
 
-        return null;
+        userToUpdate.setName(updatedUser.getName());
+        userToUpdate.setEmail(updatedUser.getEmail());
+        return userRepository.save(userToUpdate);
     }
 
-
+    public User findUserByName(String name) {
+        return getAllUsers().stream()
+                .filter(user -> user.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElseThrow(() -> new UserNotFoundException("User not found with name: " + name));
+    }
 }
