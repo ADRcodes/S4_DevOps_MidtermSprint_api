@@ -50,7 +50,6 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "venue_id", nullable = false)
     @NotNull(message = "Venue is required")
-    @JsonBackReference
     private Venue venue;
 
     // ─── Getters & Setters ────────────────────────────────────────────────────
