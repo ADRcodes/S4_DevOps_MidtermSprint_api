@@ -6,9 +6,12 @@ import com.keyin.rest.user.User;
 import com.keyin.rest.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 public class RegistrationService {
@@ -23,12 +26,13 @@ public class RegistrationService {
     private EventRepository eventRepository;
 
     public Registration create(Registration registration) {
-        User user = userRepository.findById(registration.getUser().getId()).orElse(null);
-        Event event = eventRepository.findById(registration.getEvent().getId()).orElse(null);
+        Long userId = registration.getUser().getId();
+        Long eventId = registration.getEvent().getId();
 
-        if (user == null || event == null) {
-            throw new RuntimeException("User or Event not found");
-        }
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "User not found with id " + userId));
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Event not found with id " + eventId));
 
         registration.setUser(user);
         registration.setEvent(event);
@@ -41,12 +45,11 @@ public class RegistrationService {
         return registrationRepository.findAll();
     }
 
-    //  GET by ID
     public Registration getById(Long id) {
-        return registrationRepository.findById(id).orElse(null);
+        return registrationRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Registration not found with id " + id));
     }
 
-    //  DELETE by ID
     public void deleteById(Long id) {
         registrationRepository.deleteById(id);
     }
