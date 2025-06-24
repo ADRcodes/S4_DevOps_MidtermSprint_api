@@ -1,11 +1,15 @@
 package com.keyin.rest.venue;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.keyin.rest.event.Event;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
 import com.keyin.rest.event.Event;
 
 
 @Entity
+@JsonIgnoreProperties("events")
 public class Venue {
 
     @Id
@@ -28,6 +32,7 @@ public class Venue {
     }
 
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
