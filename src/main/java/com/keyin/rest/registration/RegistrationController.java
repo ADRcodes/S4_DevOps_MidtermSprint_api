@@ -7,6 +7,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/registrations")
+@CrossOrigin
 public class RegistrationController {
 
     @Autowired
@@ -20,5 +21,17 @@ public class RegistrationController {
     @GetMapping
     public List<Registration> getAll() {
         return registrationService.getAll();
+    }
+
+    //  GET /api/registrations/{id}
+    @GetMapping("/{id}")
+    public Registration getById(@PathVariable Long id) {
+        return registrationService.getById(id);
+    }
+
+    //  DELETE /api/registrations/{id}
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id) {
+        registrationService.deleteById(id);
     }
 }

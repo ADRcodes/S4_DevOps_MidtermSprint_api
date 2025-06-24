@@ -5,6 +5,8 @@ import com.keyin.rest.event.Event;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
+import com.keyin.rest.event.Event;
+
 
 @Entity
 @JsonIgnoreProperties("events")
