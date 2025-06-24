@@ -20,7 +20,16 @@ public class EventController {
     }
 
     @GetMapping
-    public List<Event> list() {
+    public List<Event> list(
+            @RequestParam(required = false) Long venueId,
+            @RequestParam(required = false) Long organizerId
+    ) {
+        if (venueId != null) {
+            return service.getEventsByVenue(venueId);
+        }
+        if (organizerId != null) {
+            return service.getEventsByOrganizer(organizerId);
+        }
         return service.getAll();
     }
 
