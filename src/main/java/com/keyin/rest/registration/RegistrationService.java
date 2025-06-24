@@ -40,4 +40,14 @@ public class RegistrationService {
     public List<Registration> getAll() {
         return registrationRepository.findAll();
     }
+
+    //  GET by ID
+    public Registration getById(Long id) {
+        return registrationRepository.findById(id).orElse(null);
+    }
+
+    //  DELETE by ID
+    public void deleteById(Long id) {
+        registrationRepository.deleteById(id);
+    }
 }

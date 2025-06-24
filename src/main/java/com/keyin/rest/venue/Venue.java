@@ -2,6 +2,8 @@ package com.keyin.rest.venue;
 
 import jakarta.persistence.*;
 import java.util.List;
+import com.keyin.rest.event.Event;
+
 
 @Entity
 public class Venue {
