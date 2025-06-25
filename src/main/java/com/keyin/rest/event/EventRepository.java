@@ -2,8 +2,10 @@ package com.keyin.rest.event;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 
 public interface EventRepository extends JpaRepository<Event, Long> {
-    // No additional methods needed for basic CRUD operations
-    // JpaRepository provides methods like findAll, findById, save, deleteById, etc.
+    List<Event> findByVenueId(Long venueId);
+    List<Event> findByOrganizerId(Long organizerId);
 }

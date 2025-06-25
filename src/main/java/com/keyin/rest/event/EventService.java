@@ -27,6 +27,14 @@ public class EventService {
                         HttpStatus.NOT_FOUND, "Event not found with id " + id));
     }
 
+    public List<Event> getEventsByVenue(Long venueId) {
+        return repo.findByVenueId(venueId);
+    }
+
+    public List<Event> getEventsByOrganizer(Long organizerId) {
+        return repo.findByOrganizerId(organizerId);
+    }
+
     public Event create(Event event) {
         return repo.save(event);
     }
