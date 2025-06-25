@@ -50,6 +50,25 @@ public class RegistrationService {
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Registration not found with id " + id));
     }
 
+    public Registration update(Long id, Registration updatedRegistration) {
+        Registration existing = registrationRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Registration not found with id " + id));
+
+        Long userId = updatedRegistration.getUser().getId();
+        Long eventId = updatedRegistration.getEvent().getId();
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "User not found with id " + userId));
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Event not found with id " + eventId));
+
+        existing.setUser(user);
+        existing.setEvent(event);
+        existing.setRegistrationDate(LocalDateTime.now());
+
+        return registrationRepository.save(existing);
+    }
+
     public void deleteById(Long id) {
         registrationRepository.deleteById(id);
     }

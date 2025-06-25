@@ -23,13 +23,16 @@ public class RegistrationController {
         return registrationService.getAll();
     }
 
-    //  GET /api/registrations/{id}
     @GetMapping("/{id}")
     public Registration getById(@PathVariable Long id) {
         return registrationService.getById(id);
     }
 
-    //  DELETE /api/registrations/{id}
+    @PutMapping("/{id}")
+    public Registration update(@PathVariable Long id, @RequestBody Registration updatedRegistration) {
+        return registrationService.update(id, updatedRegistration);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         registrationService.deleteById(id);
