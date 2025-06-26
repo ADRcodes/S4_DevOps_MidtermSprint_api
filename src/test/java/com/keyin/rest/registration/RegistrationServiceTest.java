@@ -87,4 +87,30 @@ public class RegistrationServiceTest {
         registrationService.deleteById(7L);
         verify(registrationRepository).deleteById(7L);
     }
+
+    @Test
+    void update_existingRegistration_returnsUpdated() {
+        Registration existing = new Registration();
+        existing.setId(5L);
+
+        User user = new User();
+        user.setId(1L);
+        Event event = new Event();
+        event.setId(2L);
+
+        Registration updated = new Registration();
+        updated.setUser(user);
+        updated.setEvent(event);
+
+        when(registrationRepository.findById(5L)).thenReturn(Optional.of(existing));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(eventRepository.findById(2L)).thenReturn(Optional.of(event));
+        when(registrationRepository.save(any(Registration.class))).thenReturn(existing);
+
+        Registration result = registrationService.update(5L, updated);
+
+        assertThat(result.getUser()).isEqualTo(user);
+        assertThat(result.getEvent()).isEqualTo(event);
+        assertThat(result.getRegistrationDate()).isNotNull();
+    }
 }

@@ -32,6 +32,11 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+
     public User updateUser(Long id, User updatedUser) {
         Optional<User> userToUpdateOptional = userRepository.findById(id);
 
