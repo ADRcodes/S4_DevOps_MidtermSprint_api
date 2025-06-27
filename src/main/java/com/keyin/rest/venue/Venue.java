@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
 import com.keyin.rest.event.Event;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 
 @Entity
@@ -18,7 +20,7 @@ public class Venue {
     private int capacity;
 
     @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnoreProperties("venue")
     private List<Event> events;
 
     public Venue() {}

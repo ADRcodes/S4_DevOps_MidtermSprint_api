@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import com.keyin.rest.venue.Venue;
 import com.keyin.rest.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 
 
@@ -49,10 +51,10 @@ public class Event {
     @NotNull(message = "Venue is required")
     private User organizer;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "venue_id", nullable = false)
     @NotNull(message = "Venue is required")
-    @JsonBackReference
+    @JsonIgnoreProperties("events")
     private Venue venue;
 
     // ─── Getters & Setters ────────────────────────────────────────────────────
