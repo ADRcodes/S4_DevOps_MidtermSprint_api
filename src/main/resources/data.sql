@@ -38,7 +38,11 @@ INSERT INTO event (id, company, title, date, description, price, capacity, venue
 (8, 'StyleScript', 'CSS Beyond Basics', '2025-10-19T10:00:00', 'Advanced layout techniques & design.', 65.00, 70, 8, 6),
 (9, 'BinaryBase', 'Low-Level Thinking', '2025-11-04T09:30:00', 'Bits, bytes & performance hacks.', 105.00, 40, 9, 7),
 (10, 'ReactRoute', 'Routing Mastery', '2025-12-01T13:00:00', 'Deep dive into SPAs and routers.', 95.00, 50, 10, 8),
-(11, 'LambdaWorks', 'Serverless Showcase', '2025-12-12T09:00:00', 'Real-world use cases for serverless.', 140.00, 60, 11, 9);
+(11, 'LambdaWorks', 'Serverless Showcase', '2025-12-12T09:00:00', 'Real-world use cases for serverless.', 140.00, 60, 11, 9),
+(12, 'StartupSpark', 'Pitch Fest 2025', '2025-06-26T14:00:00', 'Local startups pitch to VCs.', 25.00, 120, 2, 5),
+(13, 'DevDocks', 'Container Day', '2025-06-28T10:00:00', 'Docker & Kubernetes hands-on.', 99.00, 80, 10, 4),
+(14, 'DataMind', 'SQL Power Hour', '2025-07-05T09:30:00', 'Advanced joins and indexes.', 59.00, 60, 6, 3),
+(15, 'LambdaWorks', 'Fast Functions', '2025-07-20T13:00:00', 'Speed tuning serverless code.', 79.00, 90, 11, 6);
 
 -- Registrations
 INSERT INTO registration (id, user_id, event_id) VALUES
