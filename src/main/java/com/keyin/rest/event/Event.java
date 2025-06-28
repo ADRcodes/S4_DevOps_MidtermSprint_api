@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 public class Event {
@@ -47,9 +49,10 @@ public class Event {
     @NotNull(message = "Venue is required")
     private User organizer;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "venue_id", nullable = false)
     @NotNull(message = "Venue is required")
+    @JsonIgnoreProperties("events")  // prevents recursion
     private Venue venue;
 
     // ─── Getters & Setters ────────────────────────────────────────────────────
