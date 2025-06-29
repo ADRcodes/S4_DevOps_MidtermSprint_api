@@ -14,12 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 public class Event {
     @Id
-    @SequenceGenerator(
-            name = "event_sequence",
-            sequenceName = "event_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(generator = "event_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank (message = "Company is required")

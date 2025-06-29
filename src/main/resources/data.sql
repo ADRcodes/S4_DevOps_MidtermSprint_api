@@ -45,16 +45,15 @@ INSERT INTO event (id, company, title, date, description, price, capacity, venue
 (15, 'LambdaWorks', 'Fast Functions', '2025-07-20T13:00:00', 'Speed tuning serverless code.', 79.00, 90, 11, 6);
 
 
--- Registrations
-INSERT INTO registration (id, user_id, event_id) VALUES
-(1, 1, 1),
-(2, 2, 1),
-(3, 3, 2),
-(4, 1, 3),
-(5, 4, 4),
-(6, 5, 5),
-(7, 6, 3),
-(8, 7, 1),
-(9, 6, 4),
-(10, 8, 8),
-(11, 9, 6);
+INSERT INTO registration (id, user_id, event_id, registration_date) VALUES
+(1, 1, 1, '2025-06-25 09:00:00'),
+(2, 2, 1, '2025-06-25 09:05:00'),
+(3, 3, 2, '2025-06-25 09:10:00'),
+(4, 1, 3, '2025-06-25 09:15:00'),
+(5, 4, 4, '2025-06-25 09:20:00'),
+(6, 5, 5, '2025-06-25 09:25:00'),
+(7, 6, 3, '2025-06-25 09:30:00'),
+(8, 7, 1, '2025-06-25 09:35:00'),
+(9, 6, 4, '2025-06-25 09:40:00'),
+(10, 8, 8, '2025-06-25 09:45:00'),
+(11, 9, 6, '2025-06-25 09:50:00');
