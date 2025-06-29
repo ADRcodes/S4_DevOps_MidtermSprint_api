@@ -11,6 +11,8 @@ This is a Spring Boot REST API for managing:
 
 It supports typical CRUD operations and provides JSON responses, making it perfect for integration with your CLI or other frontend tools.
 
+For best results, ensure you are using the program with Java SDK 21
+
 ---
 
 ## How to Run
@@ -18,7 +20,7 @@ It supports typical CRUD operations and provides JSON responses, making it perfe
 1. **Clone the repo**
 
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/ADRcodes/S4_DevOps_MidtermSprint_api.git
    cd S4_DevOps_MidtermSprint_api
    ```
 
@@ -46,6 +48,8 @@ It supports typical CRUD operations and provides JSON responses, making it perfe
    - `GET http://localhost:8080/api/users`
    - `GET http://localhost:8080/api/events`
    - `GET http://localhost:8080/api/venues`
+   - `GET http://localhost:8080/api/registrations`
+
 
    You can also test POST, PUT, and DELETE requests.
 
