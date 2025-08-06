@@ -36,7 +36,36 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    // User Tag Methods //
+    public List<User> getUsersByUserTag(String userTag) {
+        return userRepository.findByUserTagIgnoreCase(userTag);
+    }
 
+    public List<User> getUsersByUserTagCaseSensitive(String userTag) {
+        return userRepository.findByUserTag(userTag);
+    }
+
+    public List<String> getAllUserTags() {
+        return userRepository.findAll().stream()
+                .map(User::getUserTag)
+                .distinct()
+                .toList();
+    }
+
+    public User updateUserTag(Long id, String userTag) {
+        Optional<User> userToUpdateOptional = userRepository.findById(id);
+
+        if (userToUpdateOptional.isPresent()) {
+            User userToUpdate = userToUpdateOptional.get();
+            userToUpdate.setUserTag(userTag);
+            return userRepository.save(userToUpdate);
+        }
+
+        return null;
+    }
+
+
+    // Updates User details including User Tag //
     public User updateUser(Long id, User updatedUser) {
         Optional<User> userToUpdateOptional = userRepository.findById(id);
 
@@ -44,11 +73,11 @@ public class UserService {
             User userToUpdate = userToUpdateOptional.get();
             userToUpdate.setName(updatedUser.getName());
             userToUpdate.setEmail(updatedUser.getEmail());
+            userToUpdate.setUserTag(updatedUser.getUserTag());
             return userRepository.save(userToUpdate);
         }
 
         return null;
     }
-
 
 }

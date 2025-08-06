@@ -10,12 +10,14 @@ public class User {
     private Long id;
     private String name;
     private String email;
+    private String userTag;
 
     // Constructor //
     public User(long id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.userTag = userTag;
     }
 
     // No-args constructor //
@@ -46,6 +48,12 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUserTag() { return userTag ; }
+
+    public void setUserTag(String userTag) {
+        this.userTag = userTag;
     }
 
     // toString method//
