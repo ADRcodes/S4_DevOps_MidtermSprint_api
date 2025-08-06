@@ -2,6 +2,9 @@ package com.keyin.rest.user;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class User {
 
@@ -13,6 +16,13 @@ public class User {
     private String password;
     private String role = "USER";
     private String userTag;
+
+    // This will allow us to store multiple tags for a user //
+    @ElementCollection
+    @CollectionTable(name = "preferred_tags", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "tag")
+    private List<String> preferredTags = new ArrayList<>();
+
 
     // Constructor //
     public User(long id, String name, String email, String password, String role) {
@@ -64,10 +74,28 @@ public class User {
         this.email = email;
     }
 
-    public String getUserTag() { return userTag ; }
+    // Preferred tag methods //
+    public List<String> getPreferredTags() {
+        return preferredTags;
+    }
 
-    public void setUserTag(String userTag) {
-        this.userTag = userTag;
+    public void setPreferredTags(List<String> preferredTags) {
+
+        if (preferredTags == null) {
+            this.preferredTags = new ArrayList<>();
+        } else {
+            this.preferredTags = preferredTags;
+        }
+    }
+
+    public void addPreferredTag(String tag) {
+        if (tag == null || tag.isBlank()) return;
+        if (preferredTags == null) preferredTags = new ArrayList<>();
+        if (!preferredTags.contains(tag)) preferredTags.add(tag);
+    }
+
+    public void removePreferredTag(String tag) {
+        if (preferredTags != null) preferredTags.remove(tag);
     }
 
     public String getPassword() {

@@ -43,3 +43,9 @@ out/
 target/
 *.ipr
 *.iws
+.idea/
+*.iml
+out/
+target/
+*.ipr
+*.iws
