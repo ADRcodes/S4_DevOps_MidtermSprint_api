@@ -26,6 +26,17 @@ public class User {
 
     }
 
+    // Temporary 3 param constructor
+    public User(long id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = ""; 
+        this.role = ""; 
+    }
+
+
+
     // No-args constructor //
     public User() {
 
