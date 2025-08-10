@@ -49,6 +49,7 @@ public class EventService {
         existing.setCapacity(updated.getCapacity());
         existing.setVenue(updated.getVenue());
         existing.setOrganizer(updated.getOrganizer());
+        existing.setTags(updated.getTags() == null ? List.of() : updated.getTags());
         return repo.save(existing);
     }
 
@@ -57,6 +58,26 @@ public class EventService {
         repo.delete(existing);
     }
 
+    public Event addTag(Long id, String tag) {
+        Event e = getById(id);
+        e.addTag(tag);
+        return repo.save(e);
+    }
+    public Event removeTag(Long id, String tag) {
+        Event e = getById(id);
+        e.removeTag(tag);
+        return repo.save(e);
+    }
 
+    public List<Event> getByTag(String tag) {
+        if (tag == null || tag.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tag is required");
+        }
+        return repo.findByTagIgnoreCase(tag.trim());
+    }
+
+    public List<String> getAllEventTags() {
+        return repo.findAllDistinctTags();
+    }
 
 }
