@@ -54,4 +54,26 @@ public class EventController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/by-tag/{tag}")
+    public List<Event> byTag(@PathVariable String tag) {
+        return service.getByTag(tag);
+    }
+
+    @GetMapping("/tags")
+    public List<String> allTags() {
+        return service.getAllEventTags();
+    }
+
+    // Optional conveniences to mutate just the tags
+    @PostMapping("/{id}/tags")
+    public Event addTag(@PathVariable Long id, @RequestParam String tag) {
+        return service.addTag(id, tag);
+    }
+
+    @DeleteMapping("/{id}/tags")
+    public Event removeTag(@PathVariable Long id, @RequestParam String tag) {
+        return service.removeTag(id, tag);
+    }
+
 }

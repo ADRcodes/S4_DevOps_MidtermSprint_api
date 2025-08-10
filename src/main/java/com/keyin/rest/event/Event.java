@@ -8,7 +8,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 
 @Entity
@@ -49,6 +53,11 @@ public class Event {
     @NotNull(message = "Venue is required")
     @JsonIgnoreProperties("events")  // prevents recursion
     private Venue venue;
+
+    @ElementCollection
+    @CollectionTable(name = "event_tags", joinColumns = @JoinColumn(name = "event_id"))
+    @Column(name = "tag")
+    private List<String> tags = new ArrayList<>();
 
     // ─── Getters & Setters ────────────────────────────────────────────────────
 
@@ -124,4 +133,18 @@ public class Event {
         this.venue = venue;
     }
 
+    // Getters and Setters for tags //
+    public List<String> getTags() { return tags; }
+
+    public void setTags(List<String> tags) { this.tags = (tags == null) ? new ArrayList<>() : tags; }
+
+    // Methods for tags //
+
+    public void addTag(String tag) {
+        if (tags == null) tags = new ArrayList<>();
+        if (tag != null && !tag.isBlank() && !tags.contains(tag)) tags.add(tag.trim());
+    }
+    public void removeTag(String tag) {
+        if (tags != null) tags.removeIf(t -> t.equalsIgnoreCase(tag));
+    }
 }
