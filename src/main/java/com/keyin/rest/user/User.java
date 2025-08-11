@@ -1,9 +1,6 @@
 package com.keyin.rest.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class User {
@@ -15,6 +12,7 @@ public class User {
     private String email;
     private String password;
     private String role = "USER";
+    private String userTag;
 
     // Constructor //
     public User(long id, String name, String email, String password, String role) {
@@ -31,11 +29,10 @@ public class User {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.password = ""; 
-        this.role = ""; 
+        this.userTag = userTag;
+        this.password = "";
+        this.role = "";
     }
-
-
 
     // No-args constructor //
     public User() {
@@ -65,6 +62,12 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUserTag() { return userTag ; }
+
+    public void setUserTag(String userTag) {
+        this.userTag = userTag;
     }
 
     public String getPassword() {

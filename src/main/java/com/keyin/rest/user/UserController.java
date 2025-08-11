@@ -1,6 +1,7 @@
 package com.keyin.rest.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -65,6 +66,17 @@ public class UserController {
         if (userToDelete != null) {
             userService.deleteUser(userToDelete);
         }
+    }
+
+    // User tag endpoints //
+    @GetMapping("/users/by-category/{categoryTag}")
+    public List<User> getUsersByUserTag(@PathVariable String userTag) {
+        return userService.getUsersByUserTag(userTag);
+    }
+
+    @GetMapping("/users/categories")
+    public List<String> getAllUserTags() {
+        return userService.getAllUserTags();
     }
 
 }
