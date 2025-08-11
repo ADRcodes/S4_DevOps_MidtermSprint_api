@@ -67,4 +67,14 @@ public class UserController {
         }
     }
 
+    // User tag endpoints //
+    @GetMapping("/users/by-category/{categoryTag}")
+    public List<User> getUsersByUserTag(@PathVariable("categoryTag") String preferredTag) {
+        return userService.getUsersByPreferredTag(preferredTag);
+    }
+
+    @GetMapping("/users/categories")
+    public List<String> getAllUserTags() {
+        return userService.getAllUserTags();
+    }
 }

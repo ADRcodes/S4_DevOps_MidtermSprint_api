@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -36,19 +35,24 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-
-    public User updateUser(Long id, User updatedUser) {
-        Optional<User> userToUpdateOptional = userRepository.findById(id);
-
-        if (userToUpdateOptional.isPresent()) {
-            User userToUpdate = userToUpdateOptional.get();
-            userToUpdate.setName(updatedUser.getName());
-            userToUpdate.setEmail(updatedUser.getEmail());
-            return userRepository.save(userToUpdate);
-        }
-
-        return null;
+    // User Tag Methods //
+    public List<User> getUsersByPreferredTag(String tag) {
+        if (tag == null || tag.isBlank()) return List.of();
+        return userRepository.findByUserTagIgnoreCase(tag.trim());
     }
 
+    public List<String> getAllUserTags() {
+        return userRepository.findAllDistinctTags();
+    }
 
+    public User updateUser(Long id, User updatedUser) {
+        return userRepository.findById(id).map(existingUser -> {
+            existingUser.setName(updatedUser.getName());
+            existingUser.setEmail(updatedUser.getEmail());
+            existingUser.setPreferredTags(
+                    updatedUser.getPreferredTags() == null ? List.of() : updatedUser.getPreferredTags()
+            );
+            return userRepository.save(existingUser);
+        }).orElse(null);
+    }
 }
