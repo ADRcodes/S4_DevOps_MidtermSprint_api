@@ -2,6 +2,7 @@ package com.keyin.rest.event;
 
 import com.keyin.rest.event.Event;
 import com.keyin.rest.event.EventService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -39,13 +40,13 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<Event> create(@RequestBody Event event) {
+    public ResponseEntity<Event> create(@ Valid @RequestBody Event event) {
         Event created = service.create(event);
         return ResponseEntity.ok(created);
     }
 
     @PutMapping("/{id}")
-    public Event update(@PathVariable Long id, @RequestBody Event event) {
+    public Event update(@PathVariable Long id, @Valid @RequestBody Event event) {
         return service.update(id, event);
     }
 
@@ -75,5 +76,6 @@ public class EventController {
     public Event removeTag(@PathVariable Long id, @RequestParam String tag) {
         return service.removeTag(id, tag);
     }
+
 
 }

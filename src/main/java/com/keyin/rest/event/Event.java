@@ -57,7 +57,9 @@ public class Event {
     @ElementCollection
     @CollectionTable(name = "event_tags", joinColumns = @JoinColumn(name = "event_id"))
     @Column(name = "tag")
-    private List<String> tags = new ArrayList<>();
+    @NotNull(message = "Tags are required")
+    @Size(min = 1, message = "Event must have at least one tag")
+    private List<@NotBlank(message = "Tags cannot be blank") String> tags = new ArrayList<>();
 
     // ─── Getters & Setters ────────────────────────────────────────────────────
 

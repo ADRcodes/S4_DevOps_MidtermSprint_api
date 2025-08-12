@@ -21,6 +21,25 @@ public class EventService {
         return repo.findAll();
     }
 
+    // Validate and normalize tags for an event //
+    private List<String> normalizeAndValidateTags(List<String> tags) {
+        if (tags == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Event must have at least one tag");
+        }
+
+        // Trim, drop blanks, deduplicate //
+        List<String> cleaned = tags.stream()
+                .map(t -> t == null ? "" : t.trim())
+                .filter(t -> !t.isEmpty())
+                .distinct()
+                .toList();
+
+        if (cleaned.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Event must have at least one non-blank tag");
+        }
+        return cleaned;
+    }
+
     public Event getById(Long id) {
         return repo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
@@ -36,6 +55,7 @@ public class EventService {
     }
 
     public Event create(Event event) {
+        event.setTags(normalizeAndValidateTags(event.getTags()));
         return repo.save(event);
     }
 
@@ -50,6 +70,9 @@ public class EventService {
         existing.setVenue(updated.getVenue());
         existing.setOrganizer(updated.getOrganizer());
         existing.setTags(updated.getTags() == null ? List.of() : updated.getTags());
+        existing.setTags(normalizeAndValidateTags(
+                updated.getTags() // Reject null or empty on purpose //
+        ));
         return repo.save(existing);
     }
 
