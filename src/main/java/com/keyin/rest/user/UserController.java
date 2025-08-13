@@ -1,9 +1,18 @@
 package com.keyin.rest.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
@@ -77,4 +86,25 @@ public class UserController {
     public List<String> getAllUserTags() {
         return userService.getAllUserTags();
     }
+
+    @GetMapping("/organizers")
+    public List<UserSummary> getOrganizers() {
+
+    return userService.getAllUsers().stream()
+            .map(user -> new UserSummary(user.getId(), user.getName()))
+            .toList();
+}
+
+public static class UserSummary {
+    private Long id;
+    private String name;
+
+    public UserSummary(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Long getId() { return id; }
+    public String getName() { return name; }
+}
 }
