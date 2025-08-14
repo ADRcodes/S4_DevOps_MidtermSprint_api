@@ -51,6 +51,6 @@ target/
 *.iws
 
 # Local dev helpers
-run-local.sh
+**/run-local.sh
 .env*
 *.pem
