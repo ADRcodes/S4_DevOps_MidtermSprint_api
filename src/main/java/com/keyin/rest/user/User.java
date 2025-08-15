@@ -1,9 +1,18 @@
 package com.keyin.rest.user;
 
-import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 
 @Entity
 public class User {
@@ -25,7 +34,7 @@ public class User {
 
 
     // Constructor //
-    public User(long id, String name, String email, String password, String role) {
+    public User(String name, String email, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -98,6 +107,7 @@ public class User {
         if (preferredTags != null) preferredTags.remove(tag);
     }
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public String getPassword() {
         return password;
     }

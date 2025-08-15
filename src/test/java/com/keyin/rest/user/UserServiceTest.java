@@ -1,88 +1,140 @@
-// package com.keyin.rest.user;
+package com.keyin.rest.user;
 
-// import org.junit.jupiter.api.BeforeEach;
-// import org.junit.jupiter.api.Test;
-// import org.mockito.Mockito;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.web.server.ResponseStatusException;
 
-// import java.util.Arrays;
-// import java.util.List;
-// import java.util.Optional;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
-// import static org.junit.jupiter.api.Assertions.*;
-// import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
-// public class UserServiceTest {
+class UserServiceTest {
 
-//     private UserRepository userRepository;
-//     private UserService userService;
+    @Mock
+    private UserRepository userRepository;
 
-//     @BeforeEach
-//     public void setup() {
-//         userRepository = mock(UserRepository.class);
-//         userService = new UserService();
-//         userService.setUserRepository(userRepository);
-//     }
+    @InjectMocks
+    private UserService userService;
 
-//     @Test
-//     public void testGetAllUsers() {
-//         User user = new User(1L, "Test User", "test@example.com");
-//         when(userRepository.findAll()).thenReturn(Arrays.asList(user));
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
-//         List<User> users = userService.getAllUsers();
-//         assertEquals(1, users.size());
-//         assertEquals("Test User", users.get(0).getName());
-//     }
+    @Test
+    void createUser_savesAndReturns() {
+        User toSave = new User(null, "Alice Smith", "alice@example.com");
+        User saved = new User(1L, "Alice Smith", "alice@example.com");
 
-//     @Test
-//     public void testCreateUser() {
-//         User user = new User(2L, "New User", "new@example.com");
-//         when(userRepository.save(user)).thenReturn(user);
+        when(userRepository.save(any(User.class))).thenReturn(saved);
 
-//         User createdUser = userService.createUser(user);
-//         assertEquals("New User", createdUser.getName());
-//         verify(userRepository, times(1)).save(user);
-//     }
+        User result = userService.createUser(toSave);
 
-//     @Test
-//     public void testGetUserById() {
-//         User user = new User(3L, "Alice", "alice@example.com");
-//         when(userRepository.findById(3L)).thenReturn(Optional.of(user));
+        assertThat(result.getId()).isEqualTo(1L);
+        assertThat(result.getName()).isEqualTo("Alice Smith");
+        assertThat(result.getEmail()).isEqualTo("alice@example.com");
 
-//         User result = userService.getUserById(3L);
-//         assertNotNull(result);
-//         assertEquals("Alice", result.getName());
-//     }
+        verify(userRepository).save(any(User.class));
+        verifyNoMoreInteractions(userRepository);
+    }
 
-//     @Test
-//     public void testGetUserByEmail() {
-//         User user = new User(4L, "Bob", "bob@example.com");
-//         when(userRepository.findByEmail("bob@example.com")).thenReturn(user);
+    @Test
+    void getAllUsers_returnsList() {
+        when(userRepository.findAll()).thenReturn(Arrays.asList(
+                new User(1L, "Bob Johnson", "bob@example.com"),
+                new User(2L, "Charlie Brown", "charlie@example.com")
+        ));
 
-//         User result = userService.getUserByEmail("bob@example.com");
-//         assertNotNull(result);
-//         assertEquals("Bob", result.getName());
-//     }
+        List<User> result = userService.getAllUsers();
 
-//     @Test
-//     public void testDeleteUser() {
-//         User user = new User(5L, "ToDelete", "delete@example.com");
-//         doNothing().when(userRepository).delete(user);
+        assertThat(result).hasSize(2)
+                .extracting(User::getName)
+                .containsExactly("Bob Johnson", "Charlie Brown");
 
-//         userService.deleteUser(user);
-//         verify(userRepository, times(1)).delete(user);
-//     }
+        verify(userRepository).findAll();
+    }
 
-//     @Test
-//     public void testUpdateUser() {
-//         User oldUser = new User(6L, "Old Name", "old@example.com");
-//         User updatedUser = new User(6L, "New Name", "new@example.com");
+    @Test
+    void getUserById_found_returnsUser() {
+        User u = new User(3L, "David Miller", "david@example.com");
+        when(userRepository.findById(3L)).thenReturn(Optional.of(u));
 
-//         when(userRepository.findById(6L)).thenReturn(Optional.of(oldUser));
-//         when(userRepository.save(any(User.class))).thenReturn(updatedUser);
+        User result = userService.getUserById(3L);
 
-//         User result = userService.updateUser(6L, updatedUser);
-//         assertNotNull(result);
-//         assertEquals("New Name", result.getName());
-//         assertEquals("new@example.com", result.getEmail());
-//     }
-// }
+        assertThat(result).isEqualTo(u);
+        verify(userRepository).findById(3L);
+    }
+
+
+    @Test
+    void getUserById_missing_returnsNull() {
+        // The service returns null when user is not found (via orElse(null))
+        when(userRepository.findById(99L)).thenReturn(Optional.empty());
+
+        User result = userService.getUserById(99L);
+
+        assertThat(result).isNull();
+        verify(userRepository).findById(99L);
+    }
+
+    @Test
+    void getUserByEmail_found_returnsUser() {
+        User u = new User(4L, "Eve Adams", "eve@example.com");
+        when(userRepository.findByEmail("eve@example.com")).thenReturn(u);
+
+        User result = userService.getUserByEmail("eve@example.com");
+
+        assertThat(result).isEqualTo(u);
+        verify(userRepository).findByEmail("eve@example.com");
+    }
+
+    @Test
+    void updateUser_found_mergesAndSaves() {
+        User existing = new User(5L, "Frank Green", "frank@example.com");
+        User patch = new User(5L, "Frank Updated", "frank.updated@example.com");
+
+        when(userRepository.findById(5L)).thenReturn(Optional.of(existing));
+        when(userRepository.save(any(User.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        User result = userService.updateUser(5L, patch);
+
+        assertThat(result.getName()).isEqualTo("Frank Updated");
+        assertThat(result.getEmail()).isEqualTo("frank.updated@example.com");
+
+        verify(userRepository).findById(5L);
+        verify(userRepository).save(any(User.class));
+    }
+
+    @Test
+    void updateUser_missing_returnsNull() {
+        // The service returns null when user is not found (via orElse(null))
+        when(userRepository.findById(42L)).thenReturn(Optional.empty());
+
+        User result = userService.updateUser(42L, new User());
+
+        assertThat(result).isNull();
+        verify(userRepository).findById(42L);
+        verify(userRepository, never()).save(any());
+    }
+
+
+    @Test
+    void deleteUser_deletesEntity() {
+        User existing = new User(6L, "Grace Hill", "grace@example.com");
+
+        doNothing().when(userRepository).delete(existing);
+
+        userService.deleteUser(existing);
+
+        verify(userRepository).delete(existing);
+    }
+}
+
