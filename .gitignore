@@ -49,3 +49,8 @@ out/
 target/
 *.ipr
 *.iws
+
+# Local dev helpers
+**/run-local.sh
+.env*
+*.pem
