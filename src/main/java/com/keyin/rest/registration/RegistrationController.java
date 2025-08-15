@@ -7,7 +7,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/registrations")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class RegistrationController {
 
     @Autowired
