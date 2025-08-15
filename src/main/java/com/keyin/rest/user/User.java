@@ -34,7 +34,7 @@ public class User {
 
 
     // Constructor //
-    public User(long id, String name, String email, String password, String role) {
+    public User(String name, String email, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
