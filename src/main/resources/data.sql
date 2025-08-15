@@ -29,7 +29,7 @@ INSERT INTO venue (id, name, address, capacity) VALUES
 -- EVENTS
 -- (No tag column here; tags go into event_tags)
 INSERT INTO event (id, company, title, date, description, price, capacity, venue_id, organizer_id) VALUES
-  (1,  'TechCorp',     'DevOps Deeeeeep Dive',       '2025-07-15 09:30:00', 'CI/CD, IaC & monitoring workshop.',      149.99, 50,  1,  1),
+  (1,  'TechCorp',     'DevOps Deep Dive',       '2025-07-15 09:30:00', 'CI/CD, IaC & monitoring workshop.',      149.99, 50,  1,  1),
   (2,  'GreenSoft',    'Java Performance Tuning','2025-08-01 13:00:00', 'Hands-on Java GC & profiling session.',   99.50, 30,  2,  2),
   (3,  'DataPros',     'AI in Production',       '2025-09-10 10:00:00', 'Deploying ML at scale.',                  199.00, 40,  3,  3),
   (4,  'CodeNest',     'Frontend Future Summit', '2025-10-05 11:00:00', 'React, Svelte & UX trends.',               89.00, 100, 4,  2),
